@@ -1,10 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Pathway_Extreme } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
+
+const pathwayExtreme = Pathway_Extreme({
+  variable: "--font-pathway-extreme",
+  subsets: ["latin"],
+});
+
 
 
 export const metadata: Metadata = {
-  title: "Bookwise - Accounting made easy",
-  description: "Manage your accounting company with Bookwise",
+  title: "Bookwise - Manage Accounting team",
+  description: "Manage your accounting team with Bookwise - the ultimate accounting dashboard.",
 };
 
 export default function RootLayout({
@@ -13,11 +23,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`antialiased`}
+        className={` ${pathwayExtreme.className}  antialiased min-h-screen relative before:absolute before:inset-0 before:bg-[url('/texture.png')] before:bg-size-[180px] before:bg-repeat before:opacity-[0.035] before:pointer-events-none before:z-20`}
       >
         {children}
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
