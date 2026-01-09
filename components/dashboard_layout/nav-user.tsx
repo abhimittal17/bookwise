@@ -28,6 +28,8 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import Logout from "../auth-module/logout"
+import { useState } from "react"
 
 export function NavUser({
   user,
@@ -38,9 +40,9 @@ export function NavUser({
     avatar: string
   }
 }) {
-  const { isMobile } = useSidebar()
-
-
+  const { isMobile } = useSidebar();
+  const [logoutDialog, setLogoutDialog] = useState(false);
+  const [color] = useState(() => Math.floor(Math.random() * 16777215).toString(16));
 
   return (
     <SidebarMenu>
@@ -52,7 +54,7 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground data-[state=!open]:rounded-none rounded-md bg-sidebar-accent"
             >
               <Avatar className="h-8 w-8">
-                <AvatarImage src={user.avatar || "https://api.dicebear.com/7.x/notionists/svg?seed=Amélie"} alt={user.name} />
+                <AvatarImage src={`https://api.dicebear.com/9.x/notionists/svg?backgroundColor=${color}`} alt={user.name} />
                 <AvatarFallback className="rounded-md">AB</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
@@ -64,15 +66,15 @@ export function NavUser({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "bottom"}
+            side={isMobile ? "top" : "right"}
             align="end"
             sideOffset={4}
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarImage src={`https://api.dicebear.com/9.x/notionists/svg?backgroundColor=${color}`} alt={user.name} />
+                  <AvatarFallback className="rounded-lg">AB</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
@@ -82,26 +84,30 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup >
-              <DropdownMenuItem className="text-xs text-accent-foreground">
-                <BadgeCheck />
-               My Profile
-           
-              </DropdownMenuItem >
-              <Link href="/billing">
+              <Link href="/profile">
+                <DropdownMenuItem className="text-xs text-accent-foreground">
+                  <BadgeCheck />
+                  MY PROFILE
+                </DropdownMenuItem >
+              </Link>
+              <Link href="/settings">
                 <DropdownMenuItem className="text-xs text-accent-foreground">
                   <Settings />
-                 Settings
+                  SETTINGS
                 </DropdownMenuItem>
               </Link>
-            
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem >
+            <DropdownMenuItem onClick={() => setLogoutDialog(true)} className="text-xs text-accent-foreground">
               <LogOut />
-             Log Out
+              LOG OUT
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+        <Logout
+          open={logoutDialog}
+          onOpenChange={setLogoutDialog}
+        />
       </SidebarMenuItem>
     </SidebarMenu>
   )

@@ -40,30 +40,30 @@ const data = {
 
     {
       title: "MANAGE DATA",
-      url: "#",
+      url: "/data-management",
       icon: DatabaseZap,
 
     },
     {
       title: "MANAGE TEAM",
-      url: "#",
+      url: "/team-management",
       icon: Users
 
     },
     {
       title: "MY ATTENDANCE",
-      url: "#",
+      url: "/my-attendance",
       icon:   Clock4,
     },
     {
       title: "TASKS",
-      url: "#",
+      url: "/tasks",
       icon: LayoutList,
 
     },
     {
       title: "MY PROFILE",
-      url: "#",
+      url: "/profile",
       icon: User2,
 
     },

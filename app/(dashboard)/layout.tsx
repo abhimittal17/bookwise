@@ -6,8 +6,8 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { ThemeProvider } from "@/components/common/theme-provider";
-import { ModeSwitcher } from "@/components/common/mode-switcher"
+import { ThemeProvider } from "@/components/common-module/theme-provider";
+import { ModeSwitcher } from "@/components/common-module/mode-switcher"
 import { Badge } from "@/components/ui/badge";
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>
-                    <header className="flex h-14 shrink-0 items-center gap-2  border-b ">
+                    <header className="flex h-14 shrink-0 items-center gap-2  border-b">
                         <div className="flex flex-1 items-center gap-2 px-3">
                             <SidebarTrigger />
                             <Separator

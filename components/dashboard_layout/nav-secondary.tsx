@@ -24,6 +24,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { CirclePlus } from "lucide-react"
 
 export function NavDocuments({
   items,
@@ -38,7 +39,10 @@ export function NavDocuments({
 
   return (
     <SidebarGroup className="">
-      <SidebarGroupLabel>Documents</SidebarGroupLabel>
+      <div className="flex items-center justify-between">
+        <SidebarGroupLabel>WORKSPACE</SidebarGroupLabel>
+        <CirclePlus className="size-3 text-muted-foreground" />
+      </div>
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>

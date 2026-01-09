@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={` ${pathwayExtreme.className}  antialiased min-h-screen relative before:absolute before:inset-0 before:bg-[url('/texture.png')] before:bg-size-[180px] before:bg-repeat before:opacity-[0.035] before:pointer-events-none before:z-20`}
+        className={` ${pathwayExtreme.className}  antialiased min-h-screen relative before:absolute before:inset-0 before:bg-[url('/texture.png')] before:bg-size-[180px] before:bg-repeat before:opacity-[0.035] before:pointer-events-none before:z-100`}
       >
         {children}
         <SpeedInsights />
