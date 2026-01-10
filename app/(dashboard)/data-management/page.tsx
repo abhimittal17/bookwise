@@ -1,5 +1,5 @@
-export default function Home() {
+export default function DataManagement() {
   return (
- <h1>Home Page</h1>
+    <div>data-management page</div>
   );
 }

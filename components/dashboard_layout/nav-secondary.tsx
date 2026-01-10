@@ -25,6 +25,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { CirclePlus } from "lucide-react"
+import { usePathname } from "next/navigation"
 
 export function NavDocuments({
   items,
@@ -36,7 +37,7 @@ export function NavDocuments({
   }[]
 }) {
   const { isMobile } = useSidebar()
-
+const pathname= usePathname();
   return (
     <SidebarGroup className="">
       <div className="flex items-center justify-between">
@@ -46,7 +47,7 @@ export function NavDocuments({
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
+            <SidebarMenuButton asChild isActive={pathname === item.url}>
               <a href={item.url}>
                 <item.icon />
                 <span className="text-xs text-accent-foreground">{item.name}</span>
