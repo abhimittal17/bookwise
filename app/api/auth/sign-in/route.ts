@@ -1,0 +1,75 @@
+import prisma from "@/lib/prisma";
+import { comparePassword } from "@/lib/hash";
+import { createSession } from "@/lib/auth";
+import { NextResponse } from "next/server";
+import { isRateLimited, resetRateLimit } from "@/lib/rate-limit";
+
+export async function POST(request: Request) {
+  try {
+  const forwardedFor = request.headers.get("x-forwarded-for");
+
+  const ip =
+    forwardedFor?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    request.headers.get("cf-connecting-ip") ||
+    (process.env.NODE_ENV === "development" ? "dev-ip" : "unknown");
+
+  const rateLimited = isRateLimited(`signin-${ip}`);
+
+  if (rateLimited) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later.",
+        code: "RATE_LIMITED",
+       },
+      { status: 429 }
+    );
+  }
+
+  const { email, password, remember } = await request.json();
+
+  if (!email || !password) {
+    return NextResponse.json(
+      { error: "Email and password are required",   code: "INVALID_INPUT", },
+      { status: 400 }
+    );
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!user || !user.isActive) {
+    return NextResponse.json(
+      { error: "Email not found or inactive",code: "USER_NOT_FOUND", },
+      { status: 401 }
+    );
+  }
+
+  const isPasswordValid = await comparePassword(password, user.password);
+
+  if (!isPasswordValid) {
+    return NextResponse.json(
+      { error: "Password is incorrect", code: "WRONG_PASSWORD", },
+      { status: 401 }
+    );
+  }
+
+  await createSession(
+    { id: user.id, role: user.role },
+    remember
+  );
+
+  resetRateLimit(`signin-${ip}`);
+
+  return NextResponse.json({
+    success: true,
+  });}
+
+  catch (error) {
+    console.error("SIGN-IN ERROR:", error);
+    return NextResponse.json(
+      { error: "Something went wrong. Please try again.", code: "SERVER_ERROR", },
+      { status: 500 }
+    );
+  }
+}
