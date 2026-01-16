@@ -37,6 +37,9 @@ enum Role {
   EMPLOYEE
   ADMIN
   MANAGER
+  CUSTOMER
+  GUEST
+  
 }
 
 model Session {

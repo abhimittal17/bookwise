@@ -34,7 +34,7 @@ const data = {
       title: "HOME",
       url: "/home",
       icon: HomeIcon,
-      isActive: true,
+
 
     },
 

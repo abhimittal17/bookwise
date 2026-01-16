@@ -14,6 +14,20 @@ const pathwayExtreme = Pathway_Extreme({
 
 
 export const metadata: Metadata = {
+  icons:{
+    icon: [{
+      media: "(prefers-color-scheme: light)",
+      url: "/images/favicon-light.png",
+      type: "image/png",
+      href: "/images/favicon-light.png",
+    },
+    {
+      media: "(prefers-color-scheme: dark)",
+      url: "/images/favicon-dark.png",
+      type: "image/png",
+      href: "/images/favicon-dark.png",
+    }]
+  },
   title: "Bookwise - Manage Accounting team",
   description: "Manage your accounting team with Bookwise - the ultimate accounting dashboard.",
 };
@@ -25,6 +39,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+      </head>
       <body
         className={` ${pathwayExtreme.className}  antialiased min-h-screen relative before:absolute before:inset-0 before:bg-[url('/texture.png')] before:bg-size-[180px] before:bg-repeat before:opacity-[0.035] before:pointer-events-none before:z-100`}
       >
