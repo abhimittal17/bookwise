@@ -12,8 +12,6 @@ export default async function PasswordResetEmailPage() {
     if (!allowed) {
         redirect("/forgot-password");  
     }
-
-
     return (
         <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 px-6 md:p-10">
             <div className="w-full max-w-md">
@@ -35,7 +33,7 @@ export default async function PasswordResetEmailPage() {
                         href="mailto:"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-block rounded-lg bg-primary px-4 py-2 text-white hover:bg-primary/90 w-full text-center"
+                        className="inline-block rounded-lg bg-primary px-4 py-2 text-white dark:text-black hover:bg-primary/90 w-full text-center"
                     >
                         OPEN EMAIL INBOX
                     </Link>

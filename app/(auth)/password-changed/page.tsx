@@ -1,8 +1,18 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { FieldDescription } from "@/components/ui/field";
+import { cookies } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function PasswordChangedPage() {
+export default async function PasswordChangedPage() {
+    const success = (await cookies()).get("password_reset_success");
+
+    if (!success) {
+        return (
+            redirect("/sign-in")
+        );
+    }
+
     return (
         <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 px-6 md:p-10">
             <div className="w-full max-w-md">

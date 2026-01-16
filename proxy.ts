@@ -44,8 +44,20 @@ export async function proxy(request: NextRequest) {
         return NextResponse.next();
     }
 
+    if (pathname.startsWith("/reset-password") && token) {
+        try {
+            jwt.verify(token, process.env.JWT_SECRET!);
+            return NextResponse.redirect(
+                new URL("/password-changed", request.url)
+            );
+        } catch {
+            return NextResponse.next();
+        }
+    }
+
+
     if (PUBLIC_ROUTES.some(route => pathname.startsWith(route))) {
-        if (pathname.startsWith("/sign-in") && token) {
+        if (pathname.startsWith("/sign-in") && token || pathname.startsWith("/forgot-password") && token || pathname.startsWith("/reset-password") && token || pathname.startsWith("/password-reset-email") && token || pathname.startsWith("/password-changed") && token) {
             try {
                 jwt.verify(token, process.env.JWT_SECRET!);
                 return NextResponse.redirect(
