@@ -1,8 +1,19 @@
+import { ResendEmailButton } from "@/components/auth-module/resend-email-button";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { FieldDescription } from "@/components/ui/field";
 import Link from "next/link";
+import { redirect} from "next/navigation";
+import { cookies } from "next/headers";
 
-export default function PasswordResetEmailPage() {
+export default async function PasswordResetEmailPage() {
+    const cookieStore = cookies();
+    const allowed = (await cookieStore).get("reset_email")?.value || "";
+
+    if (!allowed) {
+        redirect("/forgot-password");  
+    }
+
+
     return (
         <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 px-6 md:p-10">
             <div className="w-full max-w-md">
@@ -16,7 +27,7 @@ export default function PasswordResetEmailPage() {
                     </div>
                     <h1 className="text-xl font-bold">PASSWORD RESET EMAIL SENT</h1>
                     <FieldDescription>
-                        We have sent a password reset link to your email address. Please check your inbox and follow the instructions to reset your password.
+                        We have sent a password reset link to your email address {allowed}. Please check your inbox and follow the instructions to reset your password.
                     </FieldDescription>
                 </div>
                 <div className="flex justify-center my-4">
@@ -32,7 +43,7 @@ export default function PasswordResetEmailPage() {
 
                 <div>
                     <FieldDescription className="text-center mt-4">
-                        DIDN&apos;T RECEIVE THE EMAIL? <Link href="/forgot-password">RESEND EMAIL</Link>
+                        DIDN&apos;T RECEIVE THE EMAIL? <ResendEmailButton />
                     </FieldDescription>
                 </div>
             </div>

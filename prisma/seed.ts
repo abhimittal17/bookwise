@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { hashPassword } from "../lib/hash";
 
 async function main() {
-    const adminEmail = "admin@company.com";
+    const adminEmail = "mabhi6444@gmail.com";
 
     const existingAdmin = await prisma.user.findUnique({
         where: { email: adminEmail },
@@ -19,12 +19,12 @@ async function main() {
             name: "Super Admin",
             email: adminEmail,
             role: "ADMIN",
-            password: await hashPassword("Admin@123"),
+            password: await hashPassword("Abhi@1709"),
             isActive: true,
         },
     });
 
-    console.log("✅ Admin user created");
+    console.log("Admin user created");
 }
 
 main()

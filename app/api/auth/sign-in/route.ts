@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     request.headers.get("cf-connecting-ip") ||
     (process.env.NODE_ENV === "development" ? "dev-ip" : "unknown");
 
-  const rateLimited = isRateLimited(`signin-${ip}`);
+  const rateLimited = isRateLimited(`signin-${ip}`, 5, 15 * 60 * 1000);
 
   if (rateLimited) {
     return NextResponse.json(

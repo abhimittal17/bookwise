@@ -25,6 +25,16 @@ export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const token = request.cookies.get("session")?.value;
 
+     if (request.nextUrl.pathname === "/password-reset-email") {
+    const allowed = request.cookies.get("pwd_reset_allowed");
+
+    if (!allowed) {
+      return NextResponse.redirect(
+        new URL("/404", request.url)
+      );
+    }
+  }
+
 
     if (
         pathname.startsWith("/_next") ||
@@ -52,7 +62,7 @@ export async function proxy(request: NextRequest) {
     if (PROTECTED_ROUTES.some(route => pathname.startsWith(route))) {
         if (!token) {
             return NextResponse.redirect(
-                new URL("/404", request.url)
+                new URL("/sign-in", request.url)
             );
         }
 

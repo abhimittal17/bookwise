@@ -23,8 +23,8 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>
-                    <header className="flex h-14 shrink-0 items-center gap-2  border-b">
-                        <div className="flex flex-1 items-center gap-2 px-3">
+                    <header className="flex h-12 shrink-0 items-center gap-2  border  rounded-lg m-2 bg-sidebar">
+                        <div className="flex flex-1 items-center gap-2 px-2 md:px-3">
                             <SidebarTrigger />
                             <Separator
                                 orientation="vertical"

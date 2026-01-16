@@ -161,9 +161,8 @@ export function LoginForm({
               id="rememberMe"
               name="rememberMe"
               value="true"
-              
               checked={remember}
-              onCheckedChange={v => setRemember(v === true)}
+              onCheckedChange={(value) => setRemember(!!value)}
             />
             <FieldLabel htmlFor="rememberMe"  className="text-xs">
               REMEMBER ME ON THIS DEVICE

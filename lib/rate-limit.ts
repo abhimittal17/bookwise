@@ -5,10 +5,10 @@ type RateLimitEntry = {
 
 const rateLimitMap = new Map<string, RateLimitEntry>();
 
-const WINDOW_SIZE = 15 * 60 * 1000; // 15 minutes
-const MAX_REQUESTS = 100; // max 100 requests per window
+const WINDOW_SIZE = 60 * 60 * 1000;
+const MAX_REQUESTS = 10; 
 
-export function isRateLimited(key: string): boolean {
+export function isRateLimited(key: string, maxRequests: number = MAX_REQUESTS, windowSize: number = WINDOW_SIZE): boolean {
   const now = Date.now();
   const entry = rateLimitMap.get(key);
 
@@ -17,7 +17,7 @@ export function isRateLimited(key: string): boolean {
     return false;
   }
 
-  if (now - entry.lastRequest > WINDOW_SIZE) {
+  if (now - entry.lastRequest > windowSize) {
     rateLimitMap.set(key, { count: 1, lastRequest: now });
     return false;
   }
@@ -27,7 +27,7 @@ export function isRateLimited(key: string): boolean {
 
   rateLimitMap.set(key, entry);
 
-  return entry.count > MAX_REQUESTS;
+  return entry.count > maxRequests;
 }
 
 export function resetRateLimit(key: string) {
