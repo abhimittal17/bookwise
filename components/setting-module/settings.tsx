@@ -39,7 +39,7 @@ import { AppearanceSettings } from "./appearance-settings"
 
 const nav = [
   { name: "MY PROFILE", key: "MY_PROFILE", icon: User,component: ProfileSettings },
-  { name: "PRIVACY & VISIBILITY", key: "PRIVACY", icon: Lock, component: PrivacySettings },
+  { name: "SECURITY & PRIVACY", key: "PRIVACY", icon: Lock, component: PrivacySettings },
   { name: "NOTIFICATIONS", key: "NOTIFICATIONS", icon: Bell, component: NotificationSettings },
   { name: "APPEARANCE", key: "APPEARANCE", icon: Paintbrush, component: AppearanceSettings },
 ] as const
