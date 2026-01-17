@@ -7,13 +7,11 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   try {
-    const forwardedFor = request.headers.get("x-forwarded-for");
-
-    const ip =
-      forwardedFor?.split(",")[0]?.trim() ||
-      request.headers.get("x-real-ip") ||
-      request.headers.get("cf-connecting-ip") ||
-      (process.env.NODE_ENV === "development" ? "dev-ip" : "unknown");
+const ip =
+  request.headers.get("cf-connecting-ip") ||
+  request.headers.get("x-real-ip") ||
+  request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+  (process.env.NODE_ENV === "development" ? "dev-ip" : "unknown");
 
     const rateLimited = isRateLimited(`forgot-password-${ip}`, 100, 60 * 60 * 1000);
     if (rateLimited) {

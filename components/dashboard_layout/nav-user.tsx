@@ -3,8 +3,8 @@
 import {
   LogOut,
   ArrowDownUp,
-  Settings,
   CircleUser,
+  Lock,
   // CircleUser,
   // CreditCard,
   // Info,
@@ -30,10 +30,10 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import Link from "next/link"
 import Logout from "../auth-module/logout"
 import { useState } from "react"
 import { IconNotification } from "@tabler/icons-react"
+import { useSettingsDialog } from "@/components/setting-module/settings-dialog-context"
 
 export function NavUser({
   user,
@@ -45,6 +45,7 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar();
+  const { openDialog } = useSettingsDialog();
   const [logoutDialog, setLogoutDialog] = useState(false);
   const [color] = useState(() => Math.floor(Math.random() * 16777215).toString(16));
 
@@ -88,24 +89,28 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="mx-1" />
             <DropdownMenuGroup >
-               <Link href="/profile">
-                <DropdownMenuItem className="text-xs text-accent-foreground">
+                <DropdownMenuItem 
+                className="text-xs text-accent-foreground"
+                 onClick={() => openDialog("MY_PROFILE")}
+                >
                   <CircleUser />
                   MY PROFILE
                 </DropdownMenuItem>
-              </Link>
-              <Link href="/settings">
-                <DropdownMenuItem className="text-xs text-accent-foreground">
-                  <Settings />
-                  SETTINGS
+                <DropdownMenuItem 
+                className="text-xs text-accent-foreground"
+                onClick={() => openDialog("PRIVACY")}
+                >
+                  <Lock />
+                  SECURITY & PRIVACY
                 </DropdownMenuItem>
-              </Link>
-              <Link href="/notifications">
-                <DropdownMenuItem className="text-xs text-accent-foreground">
+                <DropdownMenuItem 
+                className="text-xs text-accent-foreground"
+                onClick={() => openDialog("NOTIFICATIONS")}
+                >
                   <IconNotification />
                   NOTIFICATIONS
                 </DropdownMenuItem>
-              </Link>
+            
               {/* <Link href="/billing">
                 <DropdownMenuItem className="text-xs text-accent-foreground">
                   <CreditCard />

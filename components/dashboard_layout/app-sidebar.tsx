@@ -3,7 +3,7 @@
 import * as React from "react"
 import {
   DatabaseZap,
-  User2,
+  // User2,
   HomeIcon,
   Users,
   LayoutList,
@@ -58,8 +58,8 @@ const data = {
 
     },
     {
-      title: "MY ATTENDANCE",
-      url: "/my-attendance",
+      title: "ATTENDANCE",
+      url: "/attendance",
       icon: Clock4,
     },
     {
@@ -83,7 +83,7 @@ const data = {
     //   icon: Search,
     // },
     {
-      title: "FEEDBACK & SUPPORT",
+      title: "FEEDBACK & IDEAS",
       url: "/feedback",
       icon: HandHeart,
     }

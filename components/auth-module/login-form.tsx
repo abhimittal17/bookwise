@@ -10,18 +10,20 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
-import {  useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Checkbox } from "../ui/checkbox";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Turnstile } from "next-turnstile";
+
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const router = useRouter();
-
+  const [turnstileStatus, setTurnstileStatus] = useState<"required" | "error" | "expired" | "success">("required");
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
@@ -38,8 +40,8 @@ export function LoginForm({
 
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
-
+  const [error, setError] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,15 +49,22 @@ export function LoginForm({
 
     setLoading(true);
 
-    // const formData = new FormData(e.currentTarget);
+    const formData = new FormData(e.currentTarget);
     // const email = formData.get("email") as string;
     // const password = formData.get("password") as string;
+    const token = formData.get("cf-turnstile-response") as string;
+
+    if (turnstileStatus !== "success") {
+      toast.error("Please verify you are not a robot.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const response = await fetch("/api/auth/sign-in", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, remember }),
+        body: JSON.stringify({ email, password, remember,token  }),
       });
 
       const data = await response.json();
@@ -78,6 +87,15 @@ export function LoginForm({
             toast.error("Please enter email and password.");
             break;
 
+          case "MISSING_TURNSTILE_TOKEN":
+            toast.error("Security verification is missing. Please try again.");
+            break;
+          
+          case "TURNSTILE_FAILED":
+            toast.error("Security verification failed. Please try again.");
+            break;
+
+
           default:
             toast.error("Something went wrong. Please try again.");
         }
@@ -86,12 +104,12 @@ export function LoginForm({
         return;
       }
       if (remember) {
-  localStorage.setItem("rememberEmail", email);
-  localStorage.setItem("rememberMe", "true");
-} else {
-  localStorage.removeItem("rememberEmail");
-  localStorage.removeItem("rememberMe");
-}
+        localStorage.setItem("rememberEmail", email);
+        localStorage.setItem("rememberMe", "true");
+      } else {
+        localStorage.removeItem("rememberEmail");
+        localStorage.removeItem("rememberMe");
+      }
 
       // toast.success("Signed in successfully!");
       router.push("/home");
@@ -154,7 +172,34 @@ export function LoginForm({
             </button>
           </div>
         </Field>
-
+        <Turnstile
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+          retry="auto"
+          refreshExpired="auto"
+          sandbox={process.env.NODE_ENV === "development"}
+          onError={() => {
+            setTurnstileStatus("error");
+            setError("Security check failed. Please try again.");
+          }}
+          onExpire={() => {
+            setTurnstileStatus("expired");
+            setError("Security check expired. Please verify again.");
+            // setTurnstileToken(null);
+          }}
+          onLoad={() => {
+            setTurnstileStatus("required");
+            setError(null);
+          }}
+          onVerify={() => {
+            setTurnstileStatus("success");
+            setError(null);
+          }}
+        />
+        {error && (
+          <FieldDescription className="text-destructive/70">
+            {error}
+          </FieldDescription>
+        )}
         <Field>
           <div className="flex items-center gap-2">
             <Checkbox
@@ -164,7 +209,7 @@ export function LoginForm({
               checked={remember}
               onCheckedChange={(value) => setRemember(!!value)}
             />
-            <FieldLabel htmlFor="rememberMe"  className="text-xs">
+            <FieldLabel htmlFor="rememberMe" className="text-xs">
               REMEMBER ME ON THIS DEVICE
             </FieldLabel>
           </div>
