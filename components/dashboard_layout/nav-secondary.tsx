@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/sidebar"
 import { CirclePlus } from "lucide-react"
 import { usePathname } from "next/navigation"
+import Link from "next/link"
 
 export function NavDocuments({
   items,
@@ -48,10 +49,10 @@ const pathname= usePathname();
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild isActive={pathname === item.url}>
-              <a href={item.url}>
+              <Link href={item.url}>
                 <item.icon />
                 <span className="text-xs text-accent-foreground">{item.name}</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

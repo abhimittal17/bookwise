@@ -1,10 +1,12 @@
 "use client"
 
 import {
-  BadgeCheck,
   LogOut,
   ArrowDownUp,
   Settings,
+  // CircleUser,
+  // CreditCard,
+  // Info,
 } from "lucide-react"
 
 import {
@@ -30,6 +32,7 @@ import {
 import Link from "next/link"
 import Logout from "../auth-module/logout"
 import { useState } from "react"
+import { IconNotification } from "@tabler/icons-react"
 
 export function NavUser({
   user,
@@ -84,11 +87,11 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup >
-              <Link href="/profile">
+               <Link href="/profile">
                 <DropdownMenuItem className="text-xs text-accent-foreground">
-                  <BadgeCheck />
-                  MY PROFILE
-                </DropdownMenuItem >
+                  <Settings />
+                  PROFILE
+                </DropdownMenuItem>
               </Link>
               <Link href="/settings">
                 <DropdownMenuItem className="text-xs text-accent-foreground">
@@ -96,6 +99,24 @@ export function NavUser({
                   SETTINGS
                 </DropdownMenuItem>
               </Link>
+              <Link href="/notifications">
+                <DropdownMenuItem className="text-xs text-accent-foreground">
+                  <IconNotification />
+                  NOTIFICATIONS
+                </DropdownMenuItem>
+              </Link>
+              {/* <Link href="/billing">
+                <DropdownMenuItem className="text-xs text-accent-foreground">
+                  <CreditCard />
+                  BILLING
+                </DropdownMenuItem>
+              </Link> */}
+              {/* <Link href="/help">
+                <DropdownMenuItem className="text-xs text-accent-foreground">
+                  <Info />
+                  GET HELP
+                </DropdownMenuItem>
+              </Link> */}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => setLogoutDialog(true)} className="text-xs text-accent-foreground">

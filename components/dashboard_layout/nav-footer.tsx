@@ -1,42 +1,43 @@
 "use client"
 
-import {  type LucideIcon } from "lucide-react"
+import * as React from "react"
+import { type LucideIcon } from "lucide-react"
 
 import {
   SidebarGroup,
-  SidebarGroupLabel,
+  SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { usePathname } from "next/navigation"
 import Link from "next/link"
 
-export function NavMain({
+export function NavFooter({
   items,
+  ...props
 }: {
   items: {
     title: string
     url: string
     icon: LucideIcon
   }[]
-}) {
-  const pathname=usePathname();
+} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>GENERAL</SidebarGroupLabel>
-      <SidebarMenu>
-        {items.map((item) => (
+    <SidebarGroup {...props}>
+      <SidebarGroupContent>
+        <SidebarMenu>
+          {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild tooltip={item.title} isActive={pathname === item.url} >
+              <SidebarMenuButton asChild>
                 <Link href={item.url}>
                   <item.icon />
                   <span className="text-xs text-accent-foreground ">{item.title}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
-        ))}
-      </SidebarMenu>
+          ))}
+        </SidebarMenu>
+      </SidebarGroupContent>
     </SidebarGroup>
   )
 }

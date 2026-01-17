@@ -31,7 +31,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
                                 className="mr-2 data-[orientation=vertical]:h-4"
                             />
                         </div>
-                        <div className="ml-auto px-2 flex items-center gap-2">
+                        <div className="ml-auto px-2 flex items-center gap-1 md:gap-2">
                             <Badge variant="default" className="px-2 py-1 text-xs">
                                 CHECK IN : 00:00 hrs
                             </Badge>

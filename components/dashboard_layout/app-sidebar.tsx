@@ -7,7 +7,12 @@ import {
   HomeIcon,
   Users,
   LayoutList,
-  Clock4
+  Clock4,
+  GalleryVerticalEnd,
+  AudioWaveform,
+  Command,
+  HandHeart,
+  // Search
 } from "lucide-react"
 
 import { NavMain } from "@/components/dashboard_layout/nav-main"
@@ -22,6 +27,8 @@ import {
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar"
 import { IconDatabase, IconFileWord, IconReport } from "@tabler/icons-react"
+import { OrganizationSwitcher } from "./organization-switcher"
+import { NavFooter } from "./nav-footer"
 
 const data = {
   user: {
@@ -53,7 +60,7 @@ const data = {
     {
       title: "MY ATTENDANCE",
       url: "/my-attendance",
-      icon:   Clock4,
+      icon: Clock4,
     },
     {
       title: "TASKS",
@@ -68,6 +75,35 @@ const data = {
 
     },
 
+  ],
+    navFooter: [
+    // {
+    //   title: "SEARCH",
+    //   url: "#",
+    //   icon: Search,
+    // },
+    {
+      title: "FEEDBACK & SUPPORT",
+      url: "/feedback",
+      icon: HandHeart,
+    }
+  ],
+  organizations: [
+    {
+      name: "Acme Inc",
+      logo: GalleryVerticalEnd,
+      plan: "Enterprise",
+    },
+    {
+      name: "Acme Corp.",
+      logo: AudioWaveform,
+      plan: "Startup",
+    },
+    {
+      name: "Evil Corp.",
+      logo: Command,
+      plan: "Free",
+    },
   ],
   documents: [
     {
@@ -92,22 +128,24 @@ const data = {
 
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  
+
   return (
     <Sidebar variant="floating" collapsible="icon" {...props}>
       <SidebarHeader>
-        <SidebarMenuButton
+        {/* <SidebarMenuButton
           size="lg"
           className="data-[state=open]:text-sidebar-accent-foreground data-[state=open]:rounded-none hover:bg-transparent"
         >
           <Avatar className="h-8 w-8">
             <AvatarImage src="/bookwise.png" alt="logo" className="dark:invert rounded-tr-md rounded-tl rounded-br" />
           </Avatar>
-        </SidebarMenuButton>
+        </SidebarMenuButton> */}
+        <OrganizationSwitcher organizations={data.organizations} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavDocuments items={data.documents} />
+        <NavFooter items={data.navFooter} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
