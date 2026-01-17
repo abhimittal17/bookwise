@@ -19,7 +19,7 @@ async function main() {
             name: "Super Admin",
             email: adminEmail,
             role: "ADMIN",
-            password: await hashPassword("Abhi@1709"),
+            password: await hashPassword("Abhi@170"),
             isActive: true,
         },
     });

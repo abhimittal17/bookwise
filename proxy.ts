@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
+import prisma from "./lib/prisma";
 
 
 const PUBLIC_ROUTES = [
@@ -13,7 +14,7 @@ const PROTECTED_ROUTES = [
     "/profile",
     "/settings",
     "/data-management",
-    "my-attendance",
+    "/my-attendance",
     "/tasks",
     "/tasks/[id]",
     "/team-management",
@@ -25,15 +26,23 @@ export async function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl;
     const token = request.cookies.get("session")?.value;
 
-     if (request.nextUrl.pathname === "/password-reset-email") {
-    const allowed = request.cookies.get("pwd_reset_allowed");
-
-    if (!allowed) {
-      return NextResponse.redirect(
-        new URL("/404", request.url)
-      );
+    const clearSessionandRedirectToSignIn = () => {
+        const response = NextResponse.redirect(
+            new URL("/sign-in", request.url)
+        );
+        response.cookies.delete("session");
+        return response;
     }
-  }
+
+    if (request.nextUrl.pathname === "/password-reset-email") {
+        const allowed = request.cookies.get("pwd_reset_allowed");
+
+        if (!allowed) {
+            return NextResponse.redirect(
+                new URL("/404", request.url)
+            );
+        }
+    }
 
 
     if (
@@ -64,7 +73,7 @@ export async function proxy(request: NextRequest) {
                     new URL("/home", request.url)
                 );
             } catch {
-                return NextResponse.next();
+                return clearSessionandRedirectToSignIn();
             }
         }
 
@@ -72,19 +81,25 @@ export async function proxy(request: NextRequest) {
     }
 
     if (PROTECTED_ROUTES.some(route => pathname.startsWith(route))) {
-        if (!token) {
-            return NextResponse.redirect(
-                new URL("/sign-in", request.url)
-            );
-        }
-
+        if (!token) return clearSessionandRedirectToSignIn();
         try {
-            jwt.verify(token, process.env.JWT_SECRET!);
+            const decoded = jwt.verify(
+                token,
+                process.env.JWT_SECRET!
+            ) as { id: string };
+
+            // 🔥 THIS IS THE FIX
+            const user = await prisma.user.findUnique({
+                where: { id: decoded.id },
+                select: { id: true, isActive: true },
+            });
+
+            if (!user || !user.isActive) {
+                return clearSessionandRedirectToSignIn();
+            }
             return NextResponse.next();
         } catch {
-            return NextResponse.redirect(
-                new URL("/404", request.url)
-            );
+            return clearSessionandRedirectToSignIn();
         }
     }
 
@@ -92,16 +107,16 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/sign-in",
-    "/forgot-password",
-    "/home/:path*",
-    "/profile/:path*",
-    "/settings/:path*",
-    "/data-management/:path*",
-    "/my-attendance/:path*",
-    "/tasks/:path*",
-    "/team-management/:path*",
-    "/projects/:path*",
-  ],
+    matcher: [
+        "/sign-in",
+        "/forgot-password",
+        "/home/:path*",
+        "/profile/:path*",
+        "/settings/:path*",
+        "/data-management/:path*",
+        "/my-attendance/:path*",
+        "/tasks/:path*",
+        "/team-management/:path*",
+        "/projects/:path*",
+    ],
 };
