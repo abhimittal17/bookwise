@@ -38,7 +38,7 @@ export function ResendEmailButton() {
             disabled={loading}
             className="p-0 h-auto"
         >
-            {loading ? "SENDING..." : "RESEND EMAIL"}
+            {loading ? "Sending..." : "Resend email"}
         </Button>
     );
 }

@@ -36,9 +36,9 @@ const ip =
         { status: 400 }
       );
     }
-
+ const normalizedEmail = email.toLowerCase().trim();
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: normalizedEmail },
     });
 
     if (!user || !user.isActive) {
@@ -53,7 +53,7 @@ const ip =
     // console.log("FORGOT: hashedToken =", hashedToken);
 
     await prisma.user.update({
-      where: { email },
+      where: { email: normalizedEmail },
       data: {
         resetToken: hashedToken,
         resetTokenExpiry: new Date(Date.now() + 15 * 60 * 1000),

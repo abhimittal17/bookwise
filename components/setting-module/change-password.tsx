@@ -12,7 +12,7 @@ import {
     DialogDescription,
     DialogTrigger
 } from "@/components/ui/dialog";
-import { Eye, EyeOff, AlertTriangle } from "lucide-react";
+import { Eye, EyeOff,} from "lucide-react";
 import { Field, FieldDescription, FieldLabel } from "../ui/field";
 import Link from "next/link";
 
@@ -22,12 +22,11 @@ export function ChangePassword() {
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [capsLock, setCapsLock] = useState(false);
 
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const hasMinLength = newPassword.length >= 12;
+    const hasMinLength = newPassword.length >= 8;
     const hasNumber = /\d/.test(newPassword);
     const hasSymbol = /[!$@%]/.test(newPassword);
     const passwordsMatch = newPassword === confirmPassword && confirmPassword.length > 0;
@@ -53,7 +52,7 @@ export function ChangePassword() {
                         Change password
                     </DialogTitle>
                     <DialogDescription className="text-sm text-muted-foreground">
-                        Use at least 12 characters with letters, numbers, and symbols (!$@%).
+                        Use at least 8 characters with letters, numbers, and symbols (!$@%).
                     </DialogDescription>
                 </DialogHeader>
 
@@ -66,9 +65,7 @@ export function ChangePassword() {
                                 type={showCurrentPassword ? "text" : "password"}
                                 placeholder="Current password"
                                 required
-                                onKeyUp={(e) =>
-                                    setCapsLock(e.getModifierState("CapsLock"))
-                                }
+                              
                             />
                             <button
                                 type="button"
@@ -84,13 +81,6 @@ export function ChangePassword() {
                                 )}
                             </button>
                         </div>
-
-                        {capsLock && (
-                            <p className="text-xs text-yellow-600 flex items-center gap-1 mt-1">
-                                <AlertTriangle size={12} />
-                                Caps Lock is on
-                            </p>
-                        )}
                     </Field>
 
                     {/* New password */}
@@ -174,7 +164,7 @@ export function ChangePassword() {
                     {/* Password rules */}
                     <ul className="text-xs text-muted-foreground space-y-1">
                         <li className={hasMinLength ? "text-green-600" : ""}>
-                            • At least 12 characters
+                            • At least 8 characters
                         </li>
                         <li className={hasNumber ? "text-green-600" : ""}>
                             • Contains a number
@@ -204,7 +194,7 @@ export function ChangePassword() {
                             !hasSymbol
                         }
                     >
-                        {isLoading ? "CHANGING..." : "CHANGE PASSWORD"}
+                        {isLoading ? "Changing..." : "Change password"}
                     </Button>
 
                     <div className="flex items-center gap-2">
