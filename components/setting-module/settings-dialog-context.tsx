@@ -6,7 +6,7 @@ type Section =
   | "MY_PROFILE"
   | "PRIVACY"
   | "NOTIFICATIONS"
-  | "APPEARANCE"
+  | "ADVANCE"
 
 type SettingsDialogContextType = {
   open: boolean

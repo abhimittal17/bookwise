@@ -101,7 +101,7 @@ export function NavUser({
                 onClick={() => openDialog("PRIVACY")}
                 >
                   <Lock />
-                  SECURITY & PRIVACY
+                  SECURITY
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                 className="text-xs text-accent-foreground"

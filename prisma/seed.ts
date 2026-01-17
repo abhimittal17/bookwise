@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { hashPassword } from "../lib/hash";
 
 async function main() {
-    const adminEmail = "mabhi6444@gmail.com";
+    const adminEmail = "mabhi644@gmail.com";
 
     const existingAdmin = await prisma.user.findUnique({
         where: { email: adminEmail },
@@ -15,10 +15,10 @@ async function main() {
 
     await prisma.user.create({
         data: {
-            id: "admin-id-001",
-            name: "Super Admin",
+            id: "admin-id-002",
+            name: "Admin",
             email: adminEmail,
-            role: "ADMIN",
+            role: "EMPLOYEE",
             password: await hashPassword("Abhi@170"),
             isActive: true,
         },
