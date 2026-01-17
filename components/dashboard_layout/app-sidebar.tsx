@@ -68,12 +68,12 @@ const data = {
       icon: LayoutList,
 
     },
-    {
-      title: "MY PROFILE",
-      url: "/profile",
-      icon: User2,
+    // {
+    //   title: "MY PROFILE",
+    //   url: "/profile",
+    //   icon: User2,
 
-    },
+    // },
 
   ],
     navFooter: [

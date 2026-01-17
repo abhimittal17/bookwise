@@ -4,6 +4,7 @@ import {
   LogOut,
   ArrowDownUp,
   Settings,
+  CircleUser,
   // CircleUser,
   // CreditCard,
   // Info,
@@ -69,7 +70,7 @@ export function NavUser({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "top" : "right"}
+            side={isMobile ? "top" : "top"}
             align="end"
             sideOffset={4}
           >
@@ -85,12 +86,12 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className="mx-1" />
             <DropdownMenuGroup >
                <Link href="/profile">
                 <DropdownMenuItem className="text-xs text-accent-foreground">
-                  <Settings />
-                  PROFILE
+                  <CircleUser />
+                  MY PROFILE
                 </DropdownMenuItem>
               </Link>
               <Link href="/settings">
@@ -118,7 +119,7 @@ export function NavUser({
                 </DropdownMenuItem>
               </Link> */}
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className="mx-1" />
             <DropdownMenuItem onClick={() => setLogoutDialog(true)} className="text-xs text-accent-foreground">
               <LogOut />
               LOG OUT
