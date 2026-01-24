@@ -18,11 +18,11 @@
     "@prisma/client": "latest"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
     "prettier": "^3.7.4",
     "tsx": "^4.21.0",
     "turbo": "^2.7.5",
     "typescript": "5.9.2"
-    
   },
   "engines": {
     "node": ">=20"

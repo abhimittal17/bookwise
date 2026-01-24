@@ -34,4 +34,8 @@ job:
 
       - name: Build projects
         run: |
-          npm run build 
+          npm run build
+      
+      - name: Send a Slack notification if a publish happens
+        if: steps.changesets.outputs.published == 'true'
+        run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"

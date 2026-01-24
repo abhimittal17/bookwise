@@ -22,8 +22,25 @@
         ".env/*"
       ]
     },
+    "db:migrate:dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:migrate:deploy": {
+      "cache": false
+    },
+     "db:push": {
+      "cache": false
+    },
+    "db:seed": {
+      "cache": false
+    },
     "check-types": {
       "dependsOn": ["^check-types"]
+    },
+     "generate": {
+      "dependsOn": ["^generate"],
+      "cache": false
     },
     "dev": {
       "cache": false,
