@@ -33,12 +33,12 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.DOCKER_IMAGE_NAME }}
-        tags: |
-          type=ref, event=branch,
-          type=ref, env=pr,
-          type=sha,prefix={{branch}}-,enable={{is_default_branch}}
-          type=sha,prefix=pr-,enable=${{ github.event_name == 'pull_request' }}
-          type=raw,value=latest,enable={{is_default_branch}}
+          tags: |
+            type=ref, event=branch,
+            type=ref, env=pr,
+            type=sha,prefix={{branch}}-,enable={{is_default_branch}}
+            type=sha,prefix=pr-,enable=${{ github.event_name == 'pull_request' }}
+            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -46,7 +46,7 @@ jobs:
           context: ${{ env.BUILD_CONTEXT }}
           file: ${{ env.DOCKERFILE_PATH }}
           push: true
-          tags: ${{ env.DOCKER_IMAGE_NAME }}:latest
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

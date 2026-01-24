@@ -8,10 +8,17 @@
     "db:push": "turbo run db:push",
     "db:seed": "turbo run db:seed",
     "dev": "turbo run dev",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "generate": "turbo run generate",
-    "check-types": "turbo run check-types"
+    "clean": "turbo run clean && rm -rf node_modules",
+    "check-types": "turbo run check-types",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo run build --filter=docs^... && changeset publish",
+    "preview-storybook": "turbo run preview-storybook"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.2.0",
