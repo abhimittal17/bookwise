@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "npm run build && npm start",
-        "build": "npx esbuild src/index.ts --bundle --platform=node --target=node --outfile=dist/index.js --format=cjs --sourcemap",
+        "build": "npx esbuild src/index.ts --bundle --platform=node --target=node20 --outfile=dist/index.js --format=cjs --sourcemap",
         "start": "npx node dist/index.js",
         "lint": "eslint './src/**/*.{ts,js}'",
         "remove-logs": "npx ts-node src/scripts/remove-logs",

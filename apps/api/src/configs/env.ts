@@ -6,7 +6,7 @@ dotenv.config({ path: '../../.env' });
 const envSchema = z.object({
     API_PORT: z
         .string()
-        .default('5000')
+        .default('8080')
         .transform((val) => parseInt(val, 10)),
     API_NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
     API_JWT_SECRET: z.string().min(32, 'JWT secret must be at least 32 characters'),
