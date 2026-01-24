@@ -1,0 +1,37 @@
+name: CI
+
+job:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Remove console logs
+        run: npm run remove-logs
+
+      - name: Check Types
+        run: npx tsc --noEmit
+      
+      - name: Check formatting
+        run: npm run format -- --check
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build projects
+        run: |
+          npm run build 

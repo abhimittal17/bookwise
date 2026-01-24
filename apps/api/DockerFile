@@ -1,0 +1,17 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json turbo.json ./
+COPY apps/api/ ./apps/api/
+COPY packages/ ./packages/
+
+# Create a minimal workspace just for server dependencies
+RUN echo '{"name": "api-docker", "private": true, "workspaces": ["apps/api", "packages/*"]}' > package.json
+RUN npm install --legacy-peer-deps
+
+WORKDIR /app/apps/api
+RUN npm run build
+EXPOSE 5000
+
+CMD ["npm", "start"]

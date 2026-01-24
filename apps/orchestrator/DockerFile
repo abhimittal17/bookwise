@@ -1,0 +1,15 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json turbo.json ./
+COPY apps/orchestrator ./apps/orchestrator
+COPY packages/db ./packages/db
+
+RUN echo '{"name": "orchestrator-docker", "private": true, "workspaces": ["apps/orchestrator", "packages/*"]}' > package.json
+RUN npm install --legacy-peer-deps
+
+WORKDIR /app/apps/orchestrator
+RUN npm run build
+CMD [ "npm", "start" ]
+
