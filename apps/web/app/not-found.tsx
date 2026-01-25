@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -19,7 +20,7 @@ export default function NotFound() {
                     404
                 </h1>
 
-                <p className="text-md sm:text-2xl md:text-4xl font-semibold text-primary/90 tracking-wide uppercase">
+                <p className="text-md sm:text-2xl md:text-3xl font-semibold text-primary/90 tracking-wide uppercase">
                     Sorry, the page was not found.
                 </p>
 
@@ -28,19 +29,15 @@ export default function NotFound() {
                 </p>
 
                 <div className="mt-6 sm:mt-8 flex justify-center items-center">
-                    <Button variant="default" className="bg-[#0033ffe6] uppercase" >
-                        <ArrowLeft className="mr-1 h-4 w-4" />
-                        Back to home</Button>
-                    <Button variant="outline" className="ml-4 uppercase">Report the issue</Button>
-                    {/* <Link
-          href="/"
-          className="inline-flex mt-6 sm:mt-8 bg-primary rounded-md uppercase text-white text-sm  font-medium px-6 py-3 hover:bg-black/80 transition-colors"
-        >
-          Back to home
-        </Link> */}
-
-
-
+                    <Link href="/" 
+                    className={cn(buttonVariants({ className:"bg-[#0033ffe6] uppercase shadow-none", variant: "default", }))}>
+                    <ArrowLeft className="mr-1 h-4 w-4" />
+                        Back to home
+                    </Link>
+                    <Link href=""
+                    className={cn(buttonVariants({ className:"ml-4 uppercase shadow-none", variant: "outline", }))}>
+                        Report the issue
+                    </Link>
                 </div>
             </div>
         </section>
